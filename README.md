@@ -9,7 +9,7 @@ npm install
 npx expo start
 ```
 
-Scan the QR code with Expo Go compatible with SDK 57.
+Scan the QR code with Expo Go compatible with SDK 58.
 
 ## Features
 
@@ -20,4 +20,10 @@ Scan the QR code with Expo Go compatible with SDK 57.
 - [ ] Search and category filters
 - [ ] Workout photos from the phone gallery
 - [ ] Supabase sign-in and private workout storage
-- [ ] Light and dark themes
+- [x] Light and dark themes
+
+## Lab 5 screenshots
+
+![FitLog in light mode](docs/home-light.jpg)
+
+![FitLog in dark mode](docs/home-dark.jpg)
