@@ -7,25 +7,41 @@ import {
   type StyleProp,
   type ViewStyle,
 } from 'react-native';
+
 import { FontSize, Radius, Spacing } from '../constants/theme';
 import { useTheme } from '../hooks/use-theme';
 import type { Workout } from '../types';
 
-type Props = {
+type WorkoutCardProps = {
   workout: Workout;
   style?: StyleProp<ViewStyle>;
+  onLongPress?: () => void;
 };
 
-export default function WorkoutCard({ workout, style }: Props) {
+export default function WorkoutCard({
+  workout,
+  style,
+  onLongPress,
+}: WorkoutCardProps) {
   const theme = useTheme();
 
   return (
     <Pressable
       accessibilityRole="button"
+      accessibilityLabel={
+        `${workout.title}, ${workout.category}, ` +
+        `${workout.date}, ${workout.durationMinutes} minutes`
+      }
+      accessibilityHint="Long press to delete"
       onPress={() => console.log('Open workout:', workout.id)}
+      onLongPress={onLongPress}
+      android_ripple={{ color: theme.border }}
       style={({ pressed }) => [
         styles.card,
-        { backgroundColor: theme.card, borderColor: theme.border },
+        {
+          backgroundColor: theme.card,
+          borderColor: theme.border,
+        },
         pressed && styles.pressed,
         style,
       ]}
@@ -33,16 +49,27 @@ export default function WorkoutCard({ workout, style }: Props) {
       <View>
         <Image
           source={{ uri: workout.photoUrl }}
-          style={[styles.photo, { backgroundColor: theme.border }]}
+          style={[styles.image, { backgroundColor: theme.border }]}
+          accessible={false}
         />
-        <Text style={[styles.badge, { backgroundColor: theme.primary, color: theme.onPrimary }]}>
-          {workout.category}
-        </Text>
+
+        <View
+          style={[styles.badge, { backgroundColor: theme.primary }]}
+        >
+          <Text
+            style={[styles.badgeText, { color: theme.onPrimary }]}
+          >
+            {workout.category}
+          </Text>
+        </View>
       </View>
 
-      <View style={styles.content}>
-        <Text style={[styles.title, { color: theme.text }]}>{workout.title}</Text>
-        <Text style={[styles.details, { color: theme.muted }]}>
+      <View style={styles.body}>
+        <Text style={[styles.title, { color: theme.text }]}>
+          {workout.title}
+        </Text>
+
+        <Text style={[styles.description, { color: theme.muted }]}>
           {workout.date} · {workout.durationMinutes} min
         </Text>
       </View>
@@ -51,9 +78,18 @@ export default function WorkoutCard({ workout, style }: Props) {
 }
 
 const styles = StyleSheet.create({
-  card: { borderWidth: 1, borderRadius: Radius.md, overflow: 'hidden' },
-  pressed: { opacity: 0.65 },
-  photo: { width: '100%', aspectRatio: 16 / 9 },
+  card: {
+    borderWidth: 1,
+    borderRadius: Radius.md,
+    overflow: 'hidden',
+  },
+  pressed: {
+    opacity: 0.65,
+  },
+  image: {
+    width: '100%',
+    aspectRatio: 16 / 9,
+  },
   badge: {
     position: 'absolute',
     top: Spacing.sm,
@@ -61,10 +97,20 @@ const styles = StyleSheet.create({
     paddingHorizontal: Spacing.sm,
     paddingVertical: Spacing.xs,
     borderRadius: Radius.pill,
+  },
+  badgeText: {
     fontSize: FontSize.small,
     fontWeight: '700',
   },
-  content: { padding: Spacing.md, gap: Spacing.xs },
-  title: { fontSize: FontSize.title, fontWeight: '700' },
-  details: { fontSize: FontSize.small },
+  body: {
+    padding: Spacing.md,
+    gap: Spacing.xs,
+  },
+  title: {
+    fontSize: FontSize.title,
+    fontWeight: '700',
+  },
+  description: {
+    fontSize: FontSize.small,
+  },
 });
