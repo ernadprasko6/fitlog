@@ -27,3 +27,19 @@ Scan the QR code with Expo Go compatible with SDK 58.
 ![FitLog in light mode](docs/home-light.jpg)
 
 ![FitLog in dark mode](docs/home-dark.jpg)
+
+## Lab 6 – Main List Screen
+
+- Virtualized FlatList with stable workout IDs.
+- Responsive grid: one column below 600, two from 600, three from 900.
+- Scrolling header with workout count and total duration.
+- Loading indicator and error state with retry.
+- Pull-to-refresh while keeping existing workouts visible.
+- Category filters with highlighted accessible chips.
+- Specific empty messages for an empty list or category.
+- Sorting by newest date or longest duration without mutating state.
+- Long-press deletion with confirmation.
+- Accessible workout labels and Android touch feedback.
+
+Data currently comes from a simulated API. Deletions are stored only in
+memory; refreshing or restarting restores the mock workouts.
